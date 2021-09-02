@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Mobile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <form action="" method="post">
+                {%csrf_token%}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary">search</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table class="table">
+                <tr>
+                    <th>Mobile Name</th>
+                    <th>Model</th>
+                    <th>Company</th>
+                    <th>Price</th>
+                    <th>stock</th>
+                    <th colspan="3" class="text-center">Actions</th>
+                </tr>
+                {%for mobile in mobiles%}
+                    <tr>
+                        <td>{{mobile.mobile_name}}</td>
+                        <td>{{mobile.model}}</td>
+                        <td>{{mobile.company}}</td>
+                        <td>{{mobile.price}}</td>
+                        <td>{{mobile.stock}}</td>
+                        <td><a style="width:100%" href="{%url 'mobiledetails' mobile.id%}" class="btn btn-block btn-warning ">View</a></td>
+                        <td><a style="width:100%" href="{%url 'updatemobile' mobile.id%}" class="btn btn-block btn-success">Update</a></td>
+                        <td><a style="width:100%" href="{%url 'removemobile' mobile.id%}" class="btn btn-block btn-danger">Delete</a></td>
+                    </tr>
+                {%endfor%}
+            </table>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{%extends 'customer/index.html'%}
+
+{%block body_block%}
+
+<h1>Welcome {{request.user}}</h1>
+<div class="row">
+    {%for book in books%}
+    <div class="col-4 mt-5">
+        <ul class="list-group">
+              <li class="list-group-item " aria-current="true">name :{{book.book_name}}</li>
+              <li class="list-group-item">author :{{book.author_name}}</li>
+              <li class="list-group-item">price :{{book.price}}</li>
+              <li class="list-group-item">copies: {{book.no_of_copies}}</li>
+              <li class="list-group-item">category:{{book.category}}</li>
+            <a href="" class="btn btn-primary">Order By</a>
+</ul>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

@@ -95,6 +95,6 @@ def cube(request):
             num1 = form.cleaned_data['num1']
             res = int(num1) ** 3
             print(res)
-            context = {'result': res,'form':form}
+            context = {'result': res, 'form': form}
             return render(request, 'cube.html', context)
-        return render(request, 'cube.html', {'form':form})
+        return render(request, 'cube.html', {'form': form})

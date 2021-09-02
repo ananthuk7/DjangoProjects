@@ -1,10 +1,53 @@
 <!DOCTYPE html>
+{%load static%}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
 </head>
 <body>
-<h1>view</h1>
+
+<div class="container">
+    <h1 class="text-center">add</h1>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <form action="" method="post">
+                {%csrf_token%}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-success">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <table class="table">
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Employee dept</th>
+                    <th>Salary</th>
+                    <th>Experience</th>
+                    <th>Actions</th>
+                </tr>
+                {%for employee in employees%}
+                <tr>
+                    <td>{{employee.ename}}</td>
+                    <td>{{employee.edept}}</td>
+                    <td>{{employee.salary}}</td>
+                    <td>{{employee.exp}}</td>
+                    <td><a href="{%url 'edetails' employee.id%}" class="btn btn-outline-success">View</a></td>
+                    <td><a href="{%url 'remove' employee.id%}" class="btn btn-outline-success">Delete</a></td>
+                    <td><a href="{%url 'update' employee.id%}" class="btn btn-outline-success">Update</a></td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>
 </body>
 </html>
