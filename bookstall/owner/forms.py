@@ -1,5 +1,5 @@
 from django import forms
-from owner.models import Book
+from owner.models import Book, Order
 from django.forms import ModelForm
 
 
@@ -14,14 +14,15 @@ class AddBookForm(forms.ModelForm):
             'author_name': forms.TextInput(attrs={'class': 'form-control'}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'no_of_copies': forms.NumberInput(attrs={'class': 'form-control'}),
-            'category':forms.TextInput(attrs={'class': 'form-control'})
+            'category': forms.TextInput(attrs={'class': 'form-control'})
 
         }
-        labels={
-            'book_name':'book name',
-            'author_name':'author',
-            'no_of_copies':'copies'
+        labels = {
+            'book_name': 'book name',
+            'author_name': 'author',
+            'no_of_copies': 'copies'
         }
+
     # book_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     # author_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     # price = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -45,27 +46,16 @@ class AddBookForm(forms.ModelForm):
             self.add_error("no_of_copies", msg)
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-
-class RegisterForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-
 class ChangeForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
         widgets = {
-            'ename': forms.TextInput(attrs={'class': 'form-control'}),
-            'edept': forms.TextInput(attrs={'class': 'form-control'}),
-            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
-            'exp': forms.NumberInput(attrs={'class': 'form-control'})
+            'book_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'author_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'no_of_copies': forms.NumberInput(attrs={'class': 'form-control'}),
+            'category': forms.TextInput(attrs={'class': 'form-control'})
         }
 
     # book_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -88,3 +78,13 @@ class ChangeForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     book_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+
+class ConfirmOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['status', 'expected_delivery_date']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'expected_delivery_date': forms.DateInput(attrs={'type': 'date'})
+        }

@@ -1,4 +1,7 @@
 from django.db import models
+from datetime import timedelta,date
+
+edd = date.today()+timedelta(days=5)
 
 
 # Create your models here.
@@ -8,6 +11,7 @@ class Book(models.Model):
     price = models.PositiveIntegerField()
     no_of_copies = models.PositiveIntegerField()
     category = models.CharField(max_length=100, null=True)
+    image = models.ImageField(upload_to="images", null="True")
 
     def __str__(self):
         return self.book_name
@@ -23,8 +27,9 @@ class Order(models.Model):
         ('ordered', 'ordered'),
         ('cancelled', 'cancelled'),
     )
+    phone = models.CharField(max_length=12, null=True)
     status = models.CharField(max_length=20, choices=options, default='ordered')
-    expected_delivery_date = models.DateField(null=True)
+    expected_delivery_date = models.DateField(null=True,default=edd)
 
 # book=Book(book_name="abc",author_name="abc",price="abc",no_of_copies="abc")
 # book.save()

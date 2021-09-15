@@ -8,6 +8,8 @@ urlpatterns = [
     path('mobiles/change/<int:id>/', views.update_mobile, name='updatemobile'),
     path('mobiles/details/<int:id>', views.mobile_details, name='mobiledetails'),
     path('mobiles/login', views.login, name='login'),
-    path('mobiles/register', views.register, name='register')
+    path('mobiles/register', views.register, name='register'),
+    path('', views.dashboard, name='dashboard'),
+    path('orderedit/<int:id>', views.order_edit, name='orderedit')
 
 ]

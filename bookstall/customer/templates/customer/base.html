@@ -2,20 +2,28 @@
 {%extends 'customer/index.html'%}
 
 {%block body_block%}
-
-<h1>Welcome {{request.user}}</h1>
+{%if request.user.is_authenticated%}
+<h1 class="text-center pt-5 pb-3" style="font-weight:bold;font-size:2rem ;text-transform:uppercase">Welcome
+    {{request.user}}</h1>
+{%endif%}
 <div class="row">
     {%for book in books%}
-    <div class="col-4 mt-5">
-        <ul class="list-group">
-              <li class="list-group-item " aria-current="true">name :{{book.book_name}}</li>
-              <li class="list-group-item">author :{{book.author_name}}</li>
-              <li class="list-group-item">price :{{book.price}}</li>
-              <li class="list-group-item">copies: {{book.no_of_copies}}</li>
-              <li class="list-group-item">category:{{book.category}}</li>
-            <a href="" class="btn btn-primary">Order By</a>
-</ul>
+    <div class="col-lg-3 mt-5 mx-auto">
+        <div class="card" style="width: 18rem;">
+            <img src="{{book.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body ">
+                <h5 class="card-title">{{book.book_name}}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{book.author_name}}</li>
+                    <li class="list-group-item">{{book.price}}</li>
+                    <li class="list-group-item">{{book.no_of_copies}}</li>
+                    <li class="list-group-item">{{book.category}}</li>
+                    <a href="{%url 'orderview' book.id%}" class="btn btn-primary">Order By</a>
+                </ul>
+            </div>
+        </div>
     </div>
+
     {%endfor%}
 </div>
 {%endblock%}

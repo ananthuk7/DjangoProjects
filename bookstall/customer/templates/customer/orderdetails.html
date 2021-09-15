@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{%extends 'customer/index.html'%}
+
+{%block body_block%}
+<table class="table">
+    <tr>
+        <th>User</th>
+        <th>Product</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th>Delivery date</th>
+        <th>Remove</th>
+    </tr>
+    {%for order in orders%}
+    <tr>
+        <td>{{order.user}}</td>
+        <td>{{order.products}}</td>
+        <td>{{order.address}}</td>
+        <td>{{order.phone}}</td>
+        <td>{{order.status}}</td>
+        <td>{{order.expected_delivery_date}}</td>
+        {%if order.status != 'Delivered'%}
+        <td><a href="{%url 'cancelorder' order.id%}">cancel</a></td>
+        {%else%}
+        <td></td>
+        {%endif%}
+    </tr>
+    {%endfor%}
+</table>
+{%endblock%}

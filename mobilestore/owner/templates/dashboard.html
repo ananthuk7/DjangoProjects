@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{%extends 'main.html'%}
+
+
+{%block body_block%}
+<div class="row">
+    <div class="col-lg-7">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Number of Orders {{orders|length}}
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table">
+
+                        <tr>
+                            <td>Name</td>
+                            <td>Product</td>
+                            <td>Address</td>
+                            <td>Phone</td>
+                            <td>Status</td>
+                            <td>Date</td>
+                            <td>Action</td>
+                        </tr>
+                        {%for order in orders%}
+                        <tr>
+                            <td>{{order.user}}</td>
+                            <td>{{order.products.mobile_name}}</td>
+                            <td>{{order.address}}</td>
+                            <td>{{order.phone}}</td>
+                            <td>{{order.status}}</td>
+                            <td>{{order.expected_delivery_date}}</td>
+                            <td><a href="{%url 'orderedit' order.id%}" class="btn btn-danger">Edit</a></td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOn">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOn" aria-expanded="true" aria-controls="collapseOn">
+                    Number of Mobiles ordered
+                </button>
+            </h2>
+            <div id="collapseOn" class="accordion-collapse collapse show" aria-labelledby="headingOn"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table">
+                        <tr>
+                            <td>MobileName</td>
+                            <td>Count</td>
+
+                        </tr>
+                        {%for report in reports%}
+                        <tr>
+                            <td>{{report.products__mobile_name}}</td>
+                            <td>{{report.count}}</td>
+
+                        </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="row mt-5">
+    <div class="col-lg-7">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1"
+                        aria-expanded="true" aria-controls="collapse1">
+                    Delivered book
+                </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table">
+
+                        <tr>
+                            <td>Name</td>
+                            <td>Product</td>
+                            <td>Address</td>
+                            <td>Phone</td>
+                            <td>Status</td>
+                            <td>Date</td>
+
+                        </tr>
+                        {%for deliver in delivers%}
+                        <tr>
+                            <td>{{deliver.user}}</td>
+                            <td>{{deliver.products.book_name}}</td>
+                            <td>{{deliver.address}}</td>
+                            <td>{{deliver.phone}}</td>
+                            <td>{{deliver.status}}</td>
+                            <td>{{deliver.expected_delivery_date}}</td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingO">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseO"
+                        aria-expanded="true" aria-controls="collapseO">
+                    Copies available
+                </button>
+            </h2>
+            <div id="collapseO" class="accordion-collapse collapse show" aria-labelledby="headingO"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table">
+
+                        <tr>
+                            <td>MobileName</td>
+                            <td>Stock</td>
+
+                        </tr>
+                        {%for copie in copies%}
+                        <tr>
+                            <td>{{copie.mobile_name}}</td>
+                            <td>{{copie.stock}}</td>
+
+                        </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row mt-5">
+    <div class="col-lg-7">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading12">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12"
+                        aria-expanded="true" aria-controls="collapse12">
+                    Cancelled Orders
+                </button>
+            </h2>
+            <div id="collapse12" class="accordion-collapse collapse show" aria-labelledby="heading12"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table">
+
+                        <tr>
+                            <td>Name</td>
+                            <td>Product</td>
+                            <td>Address</td>
+                            <td>Phone</td>
+                            <td>Status</td>
+                            <td>Date</td>
+
+                        </tr>
+                        {%for deliver in cancelled%}
+                        <tr>
+                            <td>{{deliver.user}}</td>
+                            <td>{{deliver.products.book_name}}</td>
+                            <td>{{deliver.address}}</td>
+                            <td>{{deliver.phone}}</td>
+                            <td>{{deliver.status}}</td>
+                            <td>{{deliver.expected_delivery_date}}</td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{%extends 'customer/index.html' %}
+
+{%block body_block%}
+<form action="" method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-primary">proceed</button>
+</form>
+
+{%endblock%}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from owner import forms
-from owner.models import Book
+from owner.models import Book, Order
+from django.db.models import Count
 
 
 # Create your views here.
@@ -13,7 +14,7 @@ def book_create(request):
         context = {'form': form}
         return render(request, "book_add.html", context)
     elif request.method == 'POST':
-        form = forms.AddBookForm(request.POST)
+        form = forms.AddBookForm(request.POST, request.FILES)
         if form.is_valid():
             # request.Post ={"book_name":"aaa"}
             # book_name = form.cleaned_data['book_name']
@@ -59,10 +60,9 @@ def book_update(request, id):
     #     'category': book.category
     # }
     form = forms.ChangeForm(instance=book)
-    context = {}
-    context['form'] = form
+    context = {'form': form}
     if request.method == 'POST':
-        form = forms.ChangeForm(request.POST, instance=book)
+        form = forms.ChangeForm(request.POST, instance=book, files=request.FILES)
         if form.is_valid():
             # book_name = form.cleaned_data['book_name']
             # author_name = form.cleaned_data['author_name']
@@ -89,24 +89,31 @@ def book_delete(request, id):
     return redirect('listbook')
 
 
-def login(request):
-    form = forms.LoginForm()
-    if request.method == 'POST':
-        form = forms.LoginForm(request.POST)
-        return render(request, "login.html", {'form': form})
-    return render(request, "login.html", {'form': form})
-
-
-def register(request):
-    form = forms.RegisterForm()
-    if request.method == 'POST':
-        # form = forms.RegisterForm(request.POST)
-        return redirect('login')
-    return render(request, "register.html", {'form': form})
-
-
 def book_details(request, id):
     books = Book.objects.get(id=id)
-    context = {}
-    context["books"] = books
+    context = {"book": books}
     return render(request, 'bookdetails.html', context)
+
+
+def dashboard(request):
+    order = Order.objects.filter(status="ordered")
+    deliver = Order.objects.filter(status="Delivered")
+    cancel = Order.objects.filter(status="cancelled")
+    report = Order.objects.values('products__book_name').annotate(count=Count('products'))
+    copie = Book.objects.all().order_by('no_of_copies')
+    context = {'orders': order, 'reports': report, 'copies': copie, 'delivers': deliver, 'cancelled': cancel}
+    return render(request, "dashboard.html", context)
+
+
+def orderedit(request, id):
+    order = Order.objects.get(id=id)
+    form = forms.ConfirmOrderForm()
+    context = {'form': form}
+    if request.method == 'POST':
+        form = forms.ConfirmOrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            return render(request, 'orderedit.html', {'form': form})
+    return render(request, 'orderedit.html', context)

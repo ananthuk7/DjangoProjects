@@ -1,33 +1,30 @@
 <!DOCTYPE html>
-{%load static%}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{%extends 'main.html'%}
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{%static 'css/style.css' %}">
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-4"></div>
+
+{%block body_block%}
+<div class="container d-flex align-items-center justify-content-center" style="height:75vh;">
+    <div class="row" style="width:100%">
+        <div class="col-lg-2"></div>
         <div class="col-lg-4">
-            <div class="card" style="width: 18rem;">
+            <img src="{{book.image.url}}" class="image-fluid" width="100%" height="300px" alt="...">
+        </div>
+        <div class="col-lg-4">
+            <div class="card" style=" height:300px;">
 
-                  <div class="card-body">
-                    <h5 class="card-title">{{books.book_name}}</h5>
+                <div class="card-body ">
+                    <h5 class="card-title">{{book.book_name}}</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{book.author_name}}</li>
+                        <li class="list-group-item">{{book.price}}</li>
+                        <li class="list-group-item">{{book.no_of_copies}}</li>
+                        <li class="list-group-item">{{book.category}}</li>
 
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{books.author_name}}</li>
-                    <li class="list-group-item">{{books.price}}</li>
-                    <li class="list-group-item">{{books.no_of_copies}}</li>
-                  </ul>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="col-lg-4"></div>
+         <div class="col-lg-2"></div>
     </div>
 </div>
-</body>
-</html>
+{%endblock%}

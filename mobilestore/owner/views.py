@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect
 from owner import forms
-from owner.models import Mobiles
+from owner.models import Mobiles, Order
+from django.db.models import Count
 
 
 # Create your views here.
 def add_mobile(request):
     form = forms.MobileAddForm()
-    context = {}
-    context['form'] = form
+    context = {'form': form}
     if request.method == 'POST':
-        form = forms.MobileAddForm(request.POST)
+        form = forms.MobileAddForm(request.POST, request.FILES)
         context['form'] = form
         if form.is_valid():
             # mobile_name = form.cleaned_data["mobile_name"]
@@ -28,8 +28,7 @@ def add_mobile(request):
 
 def view_mobiles(request):
     mobiles = Mobiles.objects.all()
-    context = {}
-    context["mobiles"] = mobiles
+    context = {"mobiles": mobiles}
     form = forms.SearchForm()
     context['form'] = form
     if request.method == 'POST':
@@ -60,11 +59,10 @@ def update_mobile(request, id):
     #     'price': mobile.price,
     #     'stock': mobile.stock
     # }
-    form = forms.MobileUpdateForm(instance=mobile)
-    context = {}
-    context['form'] = form
+    form = forms.MobileUpdateForm(instance=mobile, files=request.FILES)
+    context = {'form': form}
     if request.method == 'POST':
-        form = forms.MobileUpdateForm(request.POST,instance=mobile)
+        form = forms.MobileUpdateForm(request.POST, instance=mobile, files=request.FILES)
         context['form'] = form
         if form.is_valid():
             # mobile.mobile_name = form.cleaned_data["mobile_name"]
@@ -82,8 +80,7 @@ def update_mobile(request, id):
 
 def mobile_details(request, id):
     mobiles = Mobiles.objects.get(id=id)
-    context = {}
-    context["mobile"] = mobiles
+    context = {"mobile": mobiles}
     return render(request, 'mobiledetails.html', context)
 
 
@@ -93,3 +90,27 @@ def login(request):
 
 def register(request):
     return render(request, "register.html")
+
+
+def dashboard(request):
+    orders = Order.objects.filter(status="ordered")
+    mobile = Order.objects.values("products__mobile_name").annotate(count=Count('products'))
+    deliver = Order.objects.filter(status="Delivered")
+    cancel = Order.objects.filter(status="cancelled")
+    copie = Mobiles.objects.all()
+
+    context = {'orders': orders, 'reports': mobile, 'delivers': deliver, 'cancelled': cancel, 'copies': copie}
+    return render(request, 'dashboard.html', context)
+
+
+def order_edit(request, id):
+    order = Order.objects.get(id=id)
+    form = forms.OrderEdit(instance=order)
+    if request.method == 'POST':
+        form = forms.OrderEdit(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            return render(request, 'orderedit.html', {'form': form})
+    return render(request, 'orderedit.html', {'form': form})

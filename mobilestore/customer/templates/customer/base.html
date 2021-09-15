@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{%extends 'customer/index.html'%}
+
+{%block body_block%}
+<div class="row">
+    {%for mobile in mobiles%}
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <img src="{{mobile.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body ">
+                <h5 class="card-title">{{mobile.mobile_name}}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">model:{{mobile.model}}</li>
+                    <li class="list-group-item">price:{{mobile.price}}</li>
+                    <li class="list-group-item">stock:{{mobile.stock}}</li>
+                    <a href="{%url 'orderview' mobile.id%}" class="btn btn-primary">Order By</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}
+

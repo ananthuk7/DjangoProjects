@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from owner.models import Mobiles
+from owner.models import Mobiles, Order
 
 
 class MobileAddForm(forms.ModelForm):
@@ -27,6 +27,16 @@ class MobileAddForm(forms.ModelForm):
         cleaned_data = super().clean()
         price = cleaned_data['price']
         stock = cleaned_data['stock']
+        mobile = cleaned_data['mobile_name']
+        model = cleaned_data['model']
+        mobilename = Mobiles.objects.filter(mobile_name=mobile)
+        models1 = Mobiles.objects.filter(model=model)
+        if mobilename:
+            msg = 'already added'
+            self.add_error('mobile_name', msg)
+        if models1:
+            msg = 'invalid model'
+            self.add_error('model', msg)
         if price < 0:
             msg = 'invalid price'
             self.add_error('price', msg)
@@ -62,3 +72,14 @@ class SearchForm(forms.Form):
 
     def clean(self):
         print('validate')
+
+
+class OrderEdit(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['status', 'expected_delivery_date']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'expected_delivery_date': forms.DateInput(attrs={'type':'date'}),
+
+        }
